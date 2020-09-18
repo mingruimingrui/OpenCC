@@ -13,11 +13,7 @@ set -e
 export DEBIAN_FRONTEND=noninteractive
 apt update
 apt upgrade -y
-<<<<<<< HEAD
-apt install -y g++ make cmake
-=======
 apt install -y g++ make curl
->>>>>>> upstream/master
 
 cd /opt/OpenCC
 
@@ -32,17 +28,10 @@ eval "$(conda shell.bash hook)"
 for VERSION in 2.7 3.5 3.6 3.7 3.8; do
     # Create and activate environment
     conda create -y -n py$VERSION python=$VERSION
-<<<<<<< HEAD
-    conda activate py$VERSIONs
-
-    # Build and package
-    pip install --no-cache-dir setuptools wheel
-=======
     conda activate py$VERSION
 
     # Build and package
     pip install --no-cache-dir setuptools wheel cmake
->>>>>>> upstream/master
     python setup.py build_ext bdist_wheel \
         --plat-name manylinux1_x86_64
 
@@ -52,12 +41,6 @@ for VERSION in 2.7 3.5 3.6 3.7 3.8; do
 done
 
 # Upload to PyPI
-<<<<<<< HEAD
-# conda activate py3.8
-# python -m pip install twine
-# python -m twine upload dist/*
-=======
 conda activate py3.8
 python -m pip install twine
 python -m twine upload dist/*
->>>>>>> upstream/master
