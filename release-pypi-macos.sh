@@ -15,11 +15,7 @@ eval "$(conda shell.bash hook)"
 for VERSION in 2.7 3.5 3.6 3.7 3.8; do
     # Create and activate environment
     conda create -y -n py$VERSION python=$VERSION
-<<<<<<< HEAD
-    conda activate py$VERSIONs
-=======
     conda activate py$VERSION
->>>>>>> upstream/master
 
     # Build and package
     pip install --no-cache-dir setuptools wheel
@@ -31,12 +27,6 @@ for VERSION in 2.7 3.5 3.6 3.7 3.8; do
 done
 
 # Upload to PyPI
-<<<<<<< HEAD
-# conda activate py3.8
-# python -m pip install twine
-# python -m twine upload dist/*
-=======
 conda activate py3.8
 python -m pip install twine
 python -m twine upload dist/*
->>>>>>> upstream/master
