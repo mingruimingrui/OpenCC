@@ -5,8 +5,9 @@ on:
 
 jobs:
   release-pypi:
-    matrix:
-      os: [ubuntu-latest, macos-latest, windows-latest]
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -17,25 +18,22 @@ jobs:
       run: |
         docker run --rm -v "${PWD}:/opt/OpenCC" \
           ubuntu:16.04 /bin/bash /opt/OpenCC/release-pypi-linux.sh
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
 
     - name: Build package and upload (macOS)
       if: runner.os == 'macOS'
       run: bash release-pypi-macos.sh
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
 
     - name: Build package and upload (Windows)
       if: runner.os == 'Windows'
-      run: ./release-pypi-windows.cmd
-
-    - name: Upload macos packages
-      if: runner.os == 'macOS'
-      uses: actions/upload-artifact@v2
-      with:
-        name: macos-builds
-        path: dist
-
-    - name: Upload windows packages
-      if: runner.os == 'Windows'
-      uses: actions/upload-artifact@v2
-      with:
-        name: windows-builds
-        path: dist
+      run: |
+        C:\Miniconda/condabin/conda.bat init powershell
+        ./release-pypi-windows.cmd
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
